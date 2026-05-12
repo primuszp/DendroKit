@@ -4,7 +4,7 @@
 [Arbaro 1.9.9](http://arbaro.sourceforge.net/) Java application, built on the
 Weber & Penn algorithm published in *SIGGRAPH '95*.
 
-![DendroKit screenshot placeholder](docs/screenshot.png)
+![DendroKit screenshot](docs/dendrokit.png)
 
 ---
 
@@ -83,15 +83,12 @@ DendroKit/
 │   │   ├─ Export/              # ObjExporter
 │   │   └─ Transformation/      # Vector3d, Matrix3, Transformation
 │   │
-│   ├─ DendroKit.WpfApp/        # WPF desktop application (primary UI)
+│   ├─ DendroKit.WpfApp/        # WPF desktop application (UI)
 │   │   ├─ MainWindow.xaml/.cs  # Main window, toolbar, param panel, GL host
 │   │   ├─ ParamViewModel.cs    # MVVM wrapper — slider, textbox, leaf-shape selector
 │   │   ├─ TreeGLControl.cs     # WinForms UserControl hosting OpenTK GLControl
 │   │   └─ Themes/
 │   │       └─ DendroTheme.xaml # Full warm bark/parchment colour theme
-│   │
-│   ├─ DendroKit.View/          # WinForms desktop application (lightweight)
-│   │   └─ TreeGLControl.cs     # Shared GL control (same camera model)
 │   │
 │   ├─ DendroKit.Tests/         # xUnit test project
 │   │   └─ RegressionTests.cs
@@ -113,8 +110,6 @@ DendroKit.Tests
     ├─▶ DendroKit.Core
     └─▶ DendroKit.WpfApp
             └─▶ DendroKit.Core
-DendroKit.View
-    └─▶ DendroKit.Core
 ```
 
 ---
@@ -128,7 +123,7 @@ DendroKit.View
 | GPU | OpenGL 2.1 compatible (any modern integrated or discrete GPU) |
 | RAM | 512 MB |
 
-> **Note:** Both the WPF and WinForms frontends are Windows-only.
+> **Note:** The WPF frontend is Windows-only.
 > `DendroKit.Core` itself is platform-agnostic (`net8.0`).
 
 ---
@@ -150,19 +145,11 @@ Or open `source/DendroKit.sln` in **Visual Studio 2022** (v17.8+) and press **F6
 
 ## Running
 
-### WPF application (recommended)
-
 ```bash
 dotnet run --project source/DendroKit.WpfApp -c Release
 ```
 
 Or in Visual Studio: set **DendroKit.WpfApp** as startup project → **F5**.
-
-### WinForms application
-
-```bash
-dotnet run --project source/DendroKit.View -c Release
-```
 
 ---
 
