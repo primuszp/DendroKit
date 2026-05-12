@@ -67,7 +67,7 @@ Key generation steps:
 4. **`ObjExporter.Write()`** — serialises mesh + leaf quads to Wavefront OBJ
 
 > Paper: J. Weber & J. Penn, *"Creation and Rendering of Realistic Trees"*,
-> SIGGRAPH 1995 — [PDF (Duke)](https://www2.cs.duke.edu/courses/cps124/spring08/assign/07_papers/p119-weber.pdf)
+> SIGGRAPH 1995 — [PDF](docs/p119-weber.pdf)
 
 ---
 
@@ -297,7 +297,7 @@ Test coverage includes:
 
 | Resource | Link |
 |----------|------|
-| Weber & Penn paper (SIGGRAPH 1995) | [p119-weber.pdf (Duke)](https://www2.cs.duke.edu/courses/cps124/spring08/assign/07_papers/p119-weber.pdf) |
+| Weber & Penn paper (SIGGRAPH 1995) | [p119-weber.pdf](docs/p119-weber.pdf) |
 | Arbaro (original Java) | [arbaro.sourceforge.net](http://arbaro.sourceforge.net/) |
 | OpenTK | [opentk.net](https://opentk.net/) |
 | .NET 8 | [dot.net](https://dotnet.microsoft.com/download/dotnet/8) |
