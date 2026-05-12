@@ -1,0 +1,85 @@
+# ── Build outputs ────────────────────────────────────────────────────────────
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+
+# ── .NET / MSBuild ────────────────────────────────────────────────────────────
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ── Visual Studio ─────────────────────────────────────────────────────────────
+.vs/
+*.vspscc
+*.vssscc
+*.pidb
+*.svclog
+*.scc
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.dotCover
+
+# ── Rider ─────────────────────────────────────────────────────────────────────
+.idea/
+*.sln.iml
+
+# ── VS Code ───────────────────────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ── NuGet ─────────────────────────────────────────────────────────────────────
+packages/
+*.nupkg
+.nuget/
+
+# ── Test results ──────────────────────────────────────────────────────────────
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.trx
+
+# ── OS noise ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── Temporary / scratch ───────────────────────────────────────────────────────
+.tmp_perf/
+*.tmp
+*.bak
+*.orig
+*.swp
+*~
+
+# ── Secrets / local overrides ─────────────────────────────────────────────────
+*.env
+*.env.local
+appsettings.*.json
+!appsettings.json
+
+# ── Claude Code internal ──────────────────────────────────────────────────────
+.claude/
+
+# ── Large reference files (keep source, ignore binary) ───────────────────────
+arbaro_1_9_9/*.jar
+arbaro_1_9_9/doc/
+treegenerator-2-0.zip
+
+# ── Exported meshes (generated, not source) ───────────────────────────────────
+*.obj
+*.mtl

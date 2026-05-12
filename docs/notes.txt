@@ -1,0 +1,13 @@
+Creation and Rendering of Realistic Trees
+https://www2.cs.duke.edu/courses/cps124/spring08/assign/07_papers/p119-weber.pdf
+
+Arbaro - tree generation for povray
+http://arbaro.sourceforge.net/
+
+Videok:
+https://www.youtube.com/watch?v=8XPogyaQ-gM
+https://www.youtube.com/watch?v=uabftHFJar8
+
+
+Tree Generator
+https://launchpad.net/tree

@@ -1,0 +1,1 @@
+// No global aliases - use full type names

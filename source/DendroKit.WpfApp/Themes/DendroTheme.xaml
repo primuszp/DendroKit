@@ -1,0 +1,430 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ══ Converters ════════════════════════════════════════════════════ -->
+    <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+    <!-- ══ Palette ═══════════════════════════════════════════════════════ -->
+    <SolidColorBrush x:Key="Br.BarkDark"      Color="#22201C"/>
+    <SolidColorBrush x:Key="Br.BarkMid"       Color="#3C3428"/>
+    <SolidColorBrush x:Key="Br.BarkHover"     Color="#4E4438"/>
+    <SolidColorBrush x:Key="Br.Divider"       Color="#464038"/>
+    <SolidColorBrush x:Key="Br.Forest"        Color="#4A7C3F"/>
+    <SolidColorBrush x:Key="Br.ForestHover"   Color="#5E9E52"/>
+    <SolidColorBrush x:Key="Br.ForestPress"   Color="#3A6230"/>
+    <SolidColorBrush x:Key="Br.Parchment"     Color="#F5F0E8"/>
+    <SolidColorBrush x:Key="Br.ParchmentMid"  Color="#EDE8DE"/>
+    <SolidColorBrush x:Key="Br.ParchmentDark" Color="#E3DDD2"/>
+    <SolidColorBrush x:Key="Br.Border"        Color="#CEC8BA"/>
+    <SolidColorBrush x:Key="Br.BorderFocus"   Color="#4A7C3F"/>
+    <SolidColorBrush x:Key="Br.TextDark"      Color="#1E1A14"/>
+    <SolidColorBrush x:Key="Br.TextMid"       Color="#6B5F4A"/>
+    <SolidColorBrush x:Key="Br.TextLight"     Color="#E8E2D6"/>
+    <SolidColorBrush x:Key="Br.TextMuted"     Color="#9A8E7A"/>
+    <SolidColorBrush x:Key="Br.SelectionBg"   Color="#D4EAC8"/>
+
+    <!-- ══ Typography ════════════════════════════════════════════════════ -->
+    <FontFamily x:Key="Ff.UI">Segoe UI</FontFamily>
+
+    <!-- ══ Toolbar button ════════════════════════════════════════════════ -->
+    <Style x:Key="TbButton" TargetType="Button">
+        <Setter Property="FontFamily"      Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"        Value="12"/>
+        <Setter Property="Foreground"      Value="{StaticResource Br.TextLight}"/>
+        <Setter Property="Background"      Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding"         Value="11,5"/>
+        <Setter Property="Margin"          Value="1,0"/>
+        <Setter Property="Cursor"          Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                            CornerRadius="3" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.BarkHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.Forest}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground"
+                                    Value="{StaticResource Br.TextMuted}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Toolbar accent button (Generate) -->
+    <Style x:Key="TbButtonAccent" TargetType="Button"
+           BasedOn="{StaticResource TbButton}">
+        <Setter Property="Background" Value="{StaticResource Br.Forest}"/>
+        <Setter Property="Padding"    Value="14,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                            CornerRadius="3" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.ForestHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.ForestPress}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ Toolbar TextBox (seed) ════════════════════════════════════════ -->
+    <Style x:Key="TbTextBox" TargetType="TextBox">
+        <Setter Property="FontFamily"              Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"                Value="12"/>
+        <Setter Property="Background"              Value="{StaticResource Br.BarkMid}"/>
+        <Setter Property="Foreground"              Value="{StaticResource Br.TextLight}"/>
+        <Setter Property="CaretBrush"              Value="{StaticResource Br.TextLight}"/>
+        <Setter Property="SelectionBrush"          Value="{StaticResource Br.Forest}"/>
+        <Setter Property="BorderBrush"             Value="{StaticResource Br.Divider}"/>
+        <Setter Property="BorderThickness"         Value="1"/>
+        <Setter Property="Padding"                 Value="5,3"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush"
+                                    Value="{StaticResource Br.Forest}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ Toolbar CheckBox ══════════════════════════════════════════════ -->
+    <Style x:Key="TbCheckBox" TargetType="CheckBox">
+        <Setter Property="FontFamily"  Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"    Value="12"/>
+        <Setter Property="Foreground"  Value="{StaticResource Br.TextLight}"/>
+        <Setter Property="Cursor"      Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border x:Name="Box" Width="14" Height="14" CornerRadius="2"
+                                Background="{StaticResource Br.BarkMid}"
+                                BorderBrush="{StaticResource Br.Divider}"
+                                BorderThickness="1" Margin="0,0,6,0">
+                            <Path x:Name="Check"
+                                  Data="M2,7 L5,10 L12,3"
+                                  Stroke="{StaticResource Br.ForestHover}"
+                                  StrokeThickness="2" StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  Visibility="Collapsed"/>
+                        </Border>
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Check" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="Box"   Property="BorderBrush"
+                                    Value="{StaticResource Br.Forest}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Box" Property="BorderBrush"
+                                    Value="{StaticResource Br.ForestHover}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ StatusBar ══════════════════════════════════════════════════════ -->
+    <Style TargetType="StatusBar">
+        <Setter Property="Background" Value="{StaticResource Br.BarkDark}"/>
+        <Setter Property="Foreground" Value="{StaticResource Br.TextMuted}"/>
+        <Setter Property="FontFamily" Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"   Value="11"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="StatusBar">
+                    <Border Background="{TemplateBinding Background}"
+                            Padding="4,0">
+                        <ItemsPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="StatusBarItem">
+        <Setter Property="Foreground" Value="{StaticResource Br.TextMuted}"/>
+        <Setter Property="FontFamily" Value="{StaticResource Ff.UI}"/>
+        <Setter Property="Padding"    Value="4,0"/>
+    </Style>
+
+    <!-- ══ ProgressBar ════════════════════════════════════════════════════ -->
+    <Style TargetType="ProgressBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Border CornerRadius="3" Background="{StaticResource Br.BarkMid}"
+                            BorderBrush="{StaticResource Br.Divider}" BorderThickness="1">
+                        <Border x:Name="PART_Indicator"
+                                HorizontalAlignment="Left" CornerRadius="2"
+                                Background="{StaticResource Br.Forest}" Margin="1"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ GridSplitter ═══════════════════════════════════════════════════ -->
+    <Style TargetType="GridSplitter">
+        <Setter Property="Background" Value="{StaticResource Br.Border}"/>
+    </Style>
+
+    <!-- ══ Panel ComboBox ════════════════════════════════════════════════ -->
+    <Style x:Key="PanelComboBox" TargetType="ComboBox">
+        <Setter Property="FontFamily"      Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"        Value="11.5"/>
+        <Setter Property="Background"      Value="{StaticResource Br.Parchment}"/>
+        <Setter Property="Foreground"      Value="{StaticResource Br.TextDark}"/>
+        <Setter Property="BorderBrush"     Value="{StaticResource Br.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding"         Value="6,3"/>
+    </Style>
+
+    <!-- ══ Panel TextBox (param value) ══════════════════════════════════ -->
+    <Style x:Key="PanelTextBox" TargetType="TextBox">
+        <Setter Property="FontFamily"              Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"                Value="11"/>
+        <Setter Property="Background"              Value="{StaticResource Br.Parchment}"/>
+        <Setter Property="Foreground"              Value="{StaticResource Br.TextDark}"/>
+        <Setter Property="BorderBrush"             Value="{StaticResource Br.Border}"/>
+        <Setter Property="BorderThickness"         Value="1"/>
+        <Setter Property="Padding"                 Value="3,1"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SelectionBrush"          Value="{StaticResource Br.SelectionBg}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="2">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush"
+                                    Value="{StaticResource Br.BorderFocus}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ Level ListBoxItem ══════════════════════════════════════════════ -->
+    <Style x:Key="LevelItem" TargetType="ListBoxItem">
+        <Setter Property="FontFamily"      Value="{StaticResource Ff.UI}"/>
+        <Setter Property="FontSize"        Value="11"/>
+        <Setter Property="Foreground"      Value="{StaticResource Br.TextMid}"/>
+        <Setter Property="Background"      Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor"          Value="Hand"/>
+        <Setter Property="Padding"         Value="10,3"/>
+        <Setter Property="Margin"          Value="1,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="3">
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.Forest}"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected"  Value="False"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.SelectionBg}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected"  Value="True"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{StaticResource Br.ForestHover}"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ Param Slider (implicit — applies to all Slider instances) ══════ -->
+    <Style TargetType="Slider">
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <!--
+                        Layout: outer Grid is 18 px tall.
+                        • A visible 4 px rail (Br.TextMuted) is drawn as the FIRST Grid child
+                          (bottom Z-order) spanning the full width.
+                        • PART_Track is drawn on top; its DecreaseRepeatButton overlays the
+                          filled (left) portion in Forest green; IncreaseRepeatButton is
+                          transparent so the rail underneath shows through.
+                        • Thumb is a 12 px circle; its stroke matches the panel background
+                          to "punch out" the rail neatly on both sides of the thumb.
+                    -->
+                    <Grid Height="18" VerticalAlignment="Center" Background="Transparent">
+
+                        <!-- Rail (full-width, always visible) -->
+                        <Border Height="4"
+                                Margin="6,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                CornerRadius="2"
+                                Background="{StaticResource Br.TextMuted}"/>
+
+                        <Track x:Name="PART_Track"
+                               Margin="6,0"
+                               VerticalAlignment="Center"
+                               IsDirectionReversed="False">
+
+                            <!-- Filled (left) portion -->
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="Slider.DecreaseLarge" Focusable="False">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Height="4"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Center"
+                                                    CornerRadius="2"
+                                                    Background="{StaticResource Br.Forest}"/>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.DecreaseRepeatButton>
+
+                            <!-- Unfilled (right) portion — transparent so rail shows through -->
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="Slider.IncreaseLarge" Focusable="False">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="Transparent"/>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.IncreaseRepeatButton>
+
+                            <!-- Thumb -->
+                            <Track.Thumb>
+                                <Thumb Focusable="False">
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Ellipse x:Name="Th"
+                                                     Width="12" Height="12"
+                                                     Fill="{StaticResource Br.Forest}"
+                                                     Stroke="{StaticResource Br.ParchmentMid}"
+                                                     StrokeThickness="2"/>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Th" Property="Fill"
+                                                            Value="{StaticResource Br.ForestHover}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsDragging" Value="True">
+                                                    <Setter TargetName="Th" Property="Fill"
+                                                            Value="{StaticResource Br.ForestPress}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══ ScrollBar (minimal, warm) ══════════════════════════════════════ -->
+    <Style x:Key="ScrollBarThumb" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{StaticResource Br.Border}"
+                            CornerRadius="3" Margin="2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ScrollBar">
+        <Setter Property="Width"      Value="8"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid Background="Transparent">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.LineUpCommand"
+                                              Opacity="0" Focusable="False"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.LineDownCommand"
+                                              Opacity="0" Focusable="False"/>
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource ScrollBarThumb}"/>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

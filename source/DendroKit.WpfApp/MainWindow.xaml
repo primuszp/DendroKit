@@ -1,0 +1,275 @@
+<Window x:Class="DendroKit.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:local="clr-namespace:DendroKit.WpfApp"
+        Title="DendroKit"
+        Width="1340" Height="840"
+        MinWidth="920" MinHeight="620"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Br.Parchment}"
+        FontFamily="{StaticResource Ff.UI}"
+        Closing="OnWindowClosing">
+
+    <Window.Resources>
+        <!-- ── Param row DataTemplate ──────────────────────────────────── -->
+        <DataTemplate DataType="{x:Type local:ParamViewModel}">
+            <DockPanel Margin="2,1" LastChildFill="True" Height="23"
+                       IsEnabled="{Binding IsEnabled}">
+                <!-- Name -->
+                <TextBlock DockPanel.Dock="Left"
+                           Width="124" VerticalAlignment="Center"
+                           Text="{Binding NiceName}"
+                           ToolTip="{Binding Name}"
+                           TextTrimming="CharacterEllipsis"
+                           FontSize="11"
+                           Foreground="{StaticResource Br.TextDark}"/>
+                <!-- Value textbox -->
+                <TextBox DockPanel.Dock="Right"
+                         Width="58" VerticalAlignment="Center"
+                         Text="{Binding TextValue, Mode=TwoWay,
+                                        UpdateSourceTrigger=LostFocus}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource PanelTextBox}">
+                            <Setter Property="IsReadOnly" Value="False"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLeafShape}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox DockPanel.Dock="Right"
+                         Width="76"
+                         Margin="0,0,4,0"
+                         VerticalAlignment="Center"
+                         IsReadOnly="True"
+                         Text="{Binding TextValue}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox"
+                               BasedOn="{StaticResource PanelTextBox}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLeafShape}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <!--
+                    Grid wraps BOTH sliders so that the LastChildFill space goes
+                    to the container, not to whichever slider happens to be last
+                    in XAML order.  Both children stretch to the full Grid width.
+                -->
+                <Grid Margin="8,0">
+                    <!-- Numeric slider — visible for int/float params -->
+                    <Slider VerticalAlignment="Center"
+                            Visibility="{Binding IsNumeric, Converter={StaticResource BoolToVis}}"
+                            Thumb.DragStarted="OnSliderDragStarted"
+                            Thumb.DragCompleted="OnSliderDragCompleted"
+                            Minimum="{Binding SliderMin}" Maximum="{Binding SliderMax}"
+                            Value="{Binding PreviewNumericValue, Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                            TickFrequency="{Binding TickFreq}"
+                            SmallChange="{Binding TickFreq}"
+                            IsSnapToTickEnabled="False"/>
+                    <!-- LeafShape slider — visible only for LeafShape param -->
+                    <Slider VerticalAlignment="Center"
+                            Visibility="{Binding IsLeafShape, Converter={StaticResource BoolToVis}}"
+                            Thumb.DragStarted="OnSliderDragStarted"
+                            Thumb.DragCompleted="OnSliderDragCompleted"
+                            Minimum="0"
+                            Maximum="{Binding LeafShapeMaxIndex}"
+                            Value="{Binding PreviewLeafShapeIndex, Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                            TickFrequency="1"
+                            SmallChange="1"
+                            LargeChange="1"
+                            IsSnapToTickEnabled="True"/>
+                </Grid>
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+
+        <!-- ══ Toolbar ══════════════════════════════════════════════════ -->
+        <Border DockPanel.Dock="Top"
+                Background="{StaticResource Br.BarkDark}"
+                Padding="6,5">
+            <DockPanel LastChildFill="False">
+
+                <!-- Branding -->
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal"
+                            VerticalAlignment="Center" Margin="0,0,16,0">
+                    <TextBlock Text="🌳" FontSize="16" VerticalAlignment="Center"
+                               Margin="0,0,5,0"/>
+                    <TextBlock Text="DendroKit"
+                               FontSize="13" FontWeight="SemiBold"
+                               Foreground="{StaticResource Br.TextLight}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- File group -->
+                <Button Content="Megnyitás"      Click="OnOpen"
+                        Style="{StaticResource TbButton}"
+                        ToolTip="XML paraméterfájl megnyitása (Ctrl+O)"/>
+                <Button Content="Mentés"         Click="OnSave"
+                        Style="{StaticResource TbButton}"
+                        ToolTip="Mentés (Ctrl+S)"/>
+                <Button Content="Mentés másként" Click="OnSaveAs"
+                        Style="{StaticResource TbButton}"/>
+
+                <!-- Separator -->
+                <Rectangle Width="1" Fill="{StaticResource Br.Divider}"
+                           Margin="6,4" VerticalAlignment="Stretch"/>
+
+                <!-- Generate -->
+                <Button Content="▶  Generálás" Click="OnGenerate"
+                        Style="{StaticResource TbButtonAccent}"
+                        ToolTip="Fa generálása (F5)"/>
+
+                <!-- Separator -->
+                <Rectangle Width="1" Fill="{StaticResource Br.Divider}"
+                           Margin="6,4" VerticalAlignment="Stretch"/>
+
+                <!-- Export -->
+                <Button Content="OBJ export"  Click="OnExport"
+                        Style="{StaticResource TbButton}"
+                        ToolTip="Exportálás Wavefront OBJ formátumba"/>
+
+                <!-- Separator -->
+                <Rectangle Width="1" Fill="{StaticResource Br.Divider}"
+                           Margin="6,4" VerticalAlignment="Stretch"/>
+
+                <!-- Seed -->
+                <TextBlock Text="Seed"
+                           Foreground="{StaticResource Br.TextMuted}"
+                           FontSize="11" VerticalAlignment="Center"
+                           Margin="4,0,5,0"/>
+                <TextBox x:Name="TxtSeed" Text="14" Width="54"
+                         Style="{StaticResource TbTextBox}"
+                         VerticalAlignment="Center"/>
+
+                <!-- Separator -->
+                <Rectangle Width="1" Fill="{StaticResource Br.Divider}"
+                           Margin="6,4" VerticalAlignment="Stretch"/>
+
+                <!-- Auto-gen -->
+                <CheckBox x:Name="ChkAutoGen"
+                          Style="{StaticResource TbCheckBox}"
+                          Content="Auto-generálás" IsChecked="True"
+                          VerticalAlignment="Center" Margin="4,0"
+                          ToolTip="Automatikusan generál minden paraméterváltozás után"/>
+            </DockPanel>
+        </Border>
+
+        <!-- ══ Status bar ════════════════════════════════════════════════ -->
+        <StatusBar DockPanel.Dock="Bottom" Height="26">
+            <StatusBarItem HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="Stretch">
+                <TextBlock x:Name="TxtStatus" Text="Kész"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource Br.TextMuted}"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <ProgressBar x:Name="PrgBar"
+                             Width="180" Height="10"
+                             Visibility="Collapsed"
+                             Minimum="0" Maximum="100"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- ══ Main area ══════════════════════════════════════════════════ -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="388" MinWidth="280"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ── Left: parameter panel ─────────────────────────────── -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource Br.ParchmentMid}"
+                    BorderBrush="{StaticResource Br.Border}"
+                    BorderThickness="0,0,1,0">
+                <DockPanel LastChildFill="True">
+
+                    <!-- Panel header -->
+                    <Border DockPanel.Dock="Top"
+                            Background="{StaticResource Br.ParchmentDark}"
+                            BorderBrush="{StaticResource Br.Border}"
+                            BorderThickness="0,0,0,1"
+                            Padding="10,7">
+                        <DockPanel>
+                            <Border DockPanel.Dock="Left"
+                                    Width="3" CornerRadius="1.5"
+                                    Background="{StaticResource Br.Forest}"
+                                    Margin="0,0,8,0"/>
+                            <TextBlock DockPanel.Dock="Left"
+                                       Text="Paraméterek"
+                                       FontWeight="SemiBold" FontSize="12"
+                                       Foreground="{StaticResource Br.TextDark}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+                            <ComboBox x:Name="CmbGroup"
+                                      SelectionChanged="OnGroupChanged"
+                                      Style="{StaticResource PanelComboBox}"
+                                      VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Level selector strip -->
+                    <Border x:Name="LevelStrip" DockPanel.Dock="Top"
+                            Background="{StaticResource Br.ParchmentMid}"
+                            BorderBrush="{StaticResource Br.Border}"
+                            BorderThickness="0,0,0,1"
+                            Padding="10,5"
+                            Visibility="Collapsed">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Left"
+                                       Text="Szint"
+                                       FontSize="11"
+                                       Foreground="{StaticResource Br.TextMid}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0"/>
+                            <ListBox x:Name="LstLevel"
+                                     SelectionMode="Single"
+                                     SelectionChanged="OnLevelChanged"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     VerticalAlignment="Center"
+                                     ItemContainerStyle="{StaticResource LevelItem}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Param list -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Padding="0,0,2,0">
+                        <ItemsControl x:Name="ParamList" Margin="8,4"/>
+                    </ScrollViewer>
+
+                </DockPanel>
+            </Border>
+
+            <!-- ── Splitter ───────────────────────────────────────────── -->
+            <GridSplitter Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          ShowsPreview="True"/>
+
+            <!-- ── Right: OpenGL viewport ─────────────────────────────── -->
+            <wfi:WindowsFormsHost Grid.Column="2" x:Name="GlHost"/>
+
+        </Grid>
+    </DockPanel>
+</Window>
