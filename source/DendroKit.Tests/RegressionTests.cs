@@ -1,7 +1,7 @@
 using DendroKit.Core.Mesh;
 using DendroKit.Core.Params;
 using DendroKit.Core.Tree;
-using DendroKit.WpfApp;
+using DendroKit.View;
 using Xunit;
 
 namespace DendroKit.Tests;

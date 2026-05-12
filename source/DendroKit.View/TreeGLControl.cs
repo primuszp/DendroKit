@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 
-namespace DendroKit.WpfApp;
+namespace DendroKit.View;
 
 /// <summary>
 /// OpenGL 3D viewport with Hilton 7-parameter camera.

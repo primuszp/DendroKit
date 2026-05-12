@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DendroKit.Core.Params;
 
-namespace DendroKit.WpfApp;
+namespace DendroKit.View;
 
 public sealed class ParamViewModel : INotifyPropertyChanged
 {

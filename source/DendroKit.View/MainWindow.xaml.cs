@@ -14,7 +14,7 @@ using WinOpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using WinSaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using WpfMessageBox    = System.Windows.MessageBox;
 
-namespace DendroKit.WpfApp;
+namespace DendroKit.View;
 
 public partial class MainWindow : Window
 {

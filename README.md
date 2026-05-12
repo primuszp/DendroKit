@@ -83,7 +83,7 @@ DendroKit/
 │   │   ├─ Export/              # ObjExporter
 │   │   └─ Transformation/      # Vector3d, Matrix3, Transformation
 │   │
-│   ├─ DendroKit.WpfApp/        # WPF desktop application (UI)
+│   ├─ DendroKit.View/        # WPF desktop application (UI)
 │   │   ├─ MainWindow.xaml/.cs  # Main window, toolbar, param panel, GL host
 │   │   ├─ ParamViewModel.cs    # MVVM wrapper — slider, textbox, leaf-shape selector
 │   │   ├─ TreeGLControl.cs     # WinForms UserControl hosting OpenTK GLControl
@@ -108,7 +108,7 @@ DendroKit/
 ```
 DendroKit.Tests
     ├─▶ DendroKit.Core
-    └─▶ DendroKit.WpfApp
+    └─▶ DendroKit.View
             └─▶ DendroKit.Core
 ```
 
@@ -146,10 +146,10 @@ Or open `source/DendroKit.sln` in **Visual Studio 2022** (v17.8+) and press **F6
 ## Running
 
 ```bash
-dotnet run --project source/DendroKit.WpfApp -c Release
+dotnet run --project source/DendroKit.View -c Release
 ```
 
-Or in Visual Studio: set **DendroKit.WpfApp** as startup project → **F5**.
+Or in Visual Studio: set **DendroKit.View** as startup project → **F5**.
 
 ---
 
